@@ -30,6 +30,7 @@ class AgentLoop(context: Context) {
     fun stop() {
         running = false
         loopJob?.cancel()
+        detector.close()
     }
 
     /** Call this from ScreenCaptureService's frame callback. */

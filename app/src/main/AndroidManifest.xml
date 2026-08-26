@@ -21,11 +21,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Screen capture foreground service -->
         <service
             android:name=".capture.ScreenCaptureService"
             android:foregroundServiceType="mediaProjection"
             android:exported="false" />
 
+        <!-- Accessibility service: performs taps/swipes -->
         <service
             android:name=".accessibility.GameAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"

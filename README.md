@@ -27,7 +27,7 @@ Layers, each independently swappable:
 
 - [x] `ScreenCaptureService` — `Image` → `Bitmap` conversion done (handles rowStride padding), throttled to 10fps, exposed via bound service
 - [x] `MainActivity` — requests accessibility + screen capture permissions, starts `AgentLoop`
-- [ ] `DetectorEngine.detect()` — load a real `.tflite` model into `assets/models/detector.tflite`, implement preprocessing + output parsing
+- [x] `DetectorEngine.detect()` — TFLite inference wired up (preprocessing, SSD-style output parsing, label map loading). Still needs: a real `.tflite` file at `assets/models/detector.tflite` — interpreter safely no-ops (returns empty detections) until one is present
 - [ ] `ActionExecutor` — calibrate real screen coordinates for target game's UI (inventory button, run button, joystick center)
 - [ ] `FightState` / `FleeState` — actual aim/attack/movement logic
 - [ ] Health/hunger reading — crop fixed HUD region, classify or OCR

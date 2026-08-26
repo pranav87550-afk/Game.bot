@@ -1,0 +1,7 @@
+# One label per line, index = line number (0-indexed), matching your
+# .tflite model's class output order. Replace with your model's actual
+# classes once trained. Example set for a survival game:
+enemy
+wood
+stone
+food

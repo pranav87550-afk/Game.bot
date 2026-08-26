@@ -13,7 +13,7 @@ class ExploreState : BotState {
             }
             gameState.inventoryFull -> LootDropState()
             gameState.nearbyResource != null -> {
-                ActionExecutor.moveDirection(0.0)
+                ActionExecutor.moveDirection(0.0) // walk toward it; refine with real bearing calc
                 this
             }
             else -> {
@@ -28,6 +28,7 @@ class ExploreState : BotState {
 /** Placeholder states — flesh these out next. */
 class FightState : BotState {
     override fun tick(gameState: GameState): BotState {
+        // TODO: aim at gameState.enemyPosition, attack
         if (!gameState.enemyVisible) return ExploreState()
         return this
     }
@@ -35,6 +36,7 @@ class FightState : BotState {
 
 class FleeState : BotState {
     override fun tick(gameState: GameState): BotState {
+        // TODO: move away from enemyPosition
         if (gameState.healthPercent > 60 || !gameState.enemyVisible) return ExploreState()
         return this
     }
@@ -43,6 +45,7 @@ class FleeState : BotState {
 class LootDropState : BotState {
     override fun tick(gameState: GameState): BotState {
         ActionExecutor.openInventory()
+        // TODO: drop lowest-priority item(s)
         return if (!gameState.inventoryFull) ExploreState() else this
     }
 }

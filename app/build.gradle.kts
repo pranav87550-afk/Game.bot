@@ -27,6 +27,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    // Keep .tflite model files uncompressed in the APK
     androidResources {
         noCompress += "tflite"
     }
@@ -35,7 +36,10 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    // On-device inference
     implementation("org.tensorflow:tensorflow-lite:2.16.1")
     implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
 }

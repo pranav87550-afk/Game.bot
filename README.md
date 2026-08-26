@@ -4,7 +4,7 @@ AI/CV-based Android game automation agent — sees the screen, decides an action
 
 ## Architecture
 
-```text
+```
 Screen (MediaProjection) --> DetectorEngine (TFLite) --> GameState
                                                               |
                                                               v
@@ -28,8 +28,8 @@ Layers, each independently swappable:
 - [x] `ScreenCaptureService` — `Image` → `Bitmap` conversion done (handles rowStride padding), throttled to 10fps, exposed via bound service
 - [x] `MainActivity` — requests accessibility + screen capture permissions, starts `AgentLoop`
 - [x] `DetectorEngine.detect()` — TFLite inference wired up (preprocessing, SSD-style output parsing, label map loading). Still needs: a real `.tflite` file at `assets/models/detector.tflite` — interpreter safely no-ops (returns empty detections) until one is present
-- [ ] `ActionExecutor` — calibrate real screen coordinates for target game's UI (inventory button, run button, joystick center)
-- [ ] `FightState` / `FleeState` — actual aim/attack/movement logic
+- [x] `FightState` / `FleeState` — attacks/flees using real bearing calculation (`ActionExecutor.bearingTo/bearingAwayFrom`) toward/away from the detected enemy position
+- [ ] `ActionExecutor` — calibrate real screen coordinates for target game's UI (inventory button, run button, joystick center, player screen position)
 - [ ] Health/hunger reading — crop fixed HUD region, classify or OCR
 - [ ] Launcher icon + theme resources (`res/mipmap`, `res/values/styles.xml`)
 

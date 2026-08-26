@@ -3,20 +3,23 @@ package com.pranav.gamebot.action
 import com.pranav.gamebot.accessibility.GameAccessibilityService
 import kotlin.random.Random
 
-/** Translates high-level intents into low-level gestures. */
+/**
+ * Translates high-level intents ("open inventory", "run forward") into
+ * low-level gestures on GameAccessibilityService.
+ *
+ * Screen coordinates below are PLACEHOLDERS — calibrate them per-game via
+ * a one-time setup screen (tap where the button is, save the coordinate).
+ */
 object ActionExecutor {
 
     private fun service() = GameAccessibilityService.instance
 
+    // --- Placeholder coordinates, replace with real calibrated values ---
     private var inventoryButton = Pair(980f, 1800f)
     private var runButton = Pair(950f, 1600f)
     private var joystickCenter = Pair(200f, 1700f)
 
-    fun calibrate(
-        inventory: Pair<Float, Float>? = null,
-        run: Pair<Float, Float>? = null,
-        joystick: Pair<Float, Float>? = null
-    ) {
+    fun calibrate(inventory: Pair<Float, Float>? = null, run: Pair<Float, Float>? = null, joystick: Pair<Float, Float>? = null) {
         inventory?.let { inventoryButton = it }
         run?.let { runButton = it }
         joystick?.let { joystickCenter = it }
@@ -51,6 +54,7 @@ object ActionExecutor {
         service()?.tap(x, y)
     }
 
+    /** Small randomized delay so actions don't look perfectly robotic/scripted. */
     private fun humanDelay() {
         Thread.sleep(Random.nextLong(40, 140))
     }

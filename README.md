@@ -25,13 +25,13 @@ Layers, each independently swappable:
 
 ## Status
 
-Skeleton stage — key pieces are `TODO`:
-
+- [x] `ScreenCaptureService` — `Image` → `Bitmap` conversion done (handles rowStride padding), throttled to 10fps, exposed via bound service
+- [x] `MainActivity` — requests accessibility + screen capture permissions, starts `AgentLoop`
 - [ ] `DetectorEngine.detect()` — load a real `.tflite` model into `assets/models/detector.tflite`, implement preprocessing + output parsing
-- [ ] `ScreenCaptureService` — `Image` → `Bitmap` conversion in the `onImageAvailable` callback
-- [ ] `ActionExecutor` — calibrate real screen coordinates for target game's UI
+- [ ] `ActionExecutor` — calibrate real screen coordinates for target game's UI (inventory button, run button, joystick center)
 - [ ] `FightState` / `FleeState` — actual aim/attack/movement logic
 - [ ] Health/hunger reading — crop fixed HUD region, classify or OCR
+- [ ] Launcher icon + theme resources (`res/mipmap`, `res/values/styles.xml`)
 
 ## Setup
 

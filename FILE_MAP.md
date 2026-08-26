@@ -53,5 +53,5 @@ Game.bot/                                  ← repo root
 
 ## Not included — you provide these
 
-- `app/src/main/assets/models/detector.tflite` — your trained/pretrained detection model
+- `app/src/main/assets/models/detector.tflite` — your trained/pretrained detection model (labelmap.txt is included as a placeholder — replace with your model's real class list)
 - App icon, launcher theme resources (`res/mipmap`, `res/values/styles.xml`) — manifest references `@mipmap/ic_launcher`, add your own or build will fail on that reference

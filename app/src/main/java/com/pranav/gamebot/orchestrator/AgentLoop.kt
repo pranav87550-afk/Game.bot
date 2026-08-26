@@ -35,6 +35,7 @@ class AgentLoop(context: Context) {
     /** Call this from ScreenCaptureService's frame callback. */
     fun onFrame(frame: Bitmap) {
         if (!running) return
+        // Run detection off the capture thread so we never block frame delivery.
         scope.launch {
             val detections = detector.detect(frame)
             lastGameState = detector.toGameState(detections, lastGameState)

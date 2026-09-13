@@ -75,7 +75,10 @@ class DetectorEngine(private val context: Context) {
     private fun loadLabelMap(): List<String> {
         return try {
             context.assets.open(LABELMAP_FILENAME).use { stream ->
-                BufferedReader(InputStreamReader(stream)).readLines().filter { it.isNotBlank() }
+                BufferedReader(InputStreamReader(stream)).readLines()
+                    // Skip blank lines AND comment lines (starting with '#') — otherwise
+                    // comments shift every class index and mislabel every detection.
+                    .filter { it.isNotBlank() && !it.trimStart().startsWith("#") }
             }
         } catch (e: Exception) {
             emptyList()

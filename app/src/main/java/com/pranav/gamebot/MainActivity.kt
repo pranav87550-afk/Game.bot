@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         if (bound) unbindService(connection)
+        agentLoop.release()
         super.onDestroy()
     }
 }

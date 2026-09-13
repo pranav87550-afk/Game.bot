@@ -13,9 +13,20 @@ import android.media.projection.MediaProjectionManager
 import android.os.Binder
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Build
 import android.os.IBinder
 import android.util.DisplayMetrics
 import androidx.core.app.NotificationCompat
+
+/** API 33 deprecated the untyped getParcelableExtra(); this picks the right call per version. */
+private inline fun <reified T : android.os.Parcelable> getParcelableExtraCompat(intent: Intent, key: String): T? {
+    return if (Build.VERSION.SDK_INT >= 33) {
+        intent.getParcelableExtra(key, T::class.java)
+    } else {
+        @Suppress("DEPRECATION")
+        intent.getParcelableExtra(key)
+    }
+}
 
 /**
  * Captures the device screen continuously and hands frames off to the
@@ -69,7 +80,7 @@ class ScreenCaptureService : Service() {
         startForeground(NOTIF_ID, buildNotification())
 
         val resultCode = intent?.getIntExtra(EXTRA_RESULT_CODE, Activity.RESULT_CANCELED) ?: return START_NOT_STICKY
-        val resultData: Intent = intent.getParcelableExtra(EXTRA_RESULT_DATA) ?: return START_NOT_STICKY
+        val resultData: Intent = getParcelableExtraCompat(intent, EXTRA_RESULT_DATA) ?: return START_NOT_STICKY
 
         val projectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         mediaProjection = projectionManager.getMediaProjection(resultCode, resultData)

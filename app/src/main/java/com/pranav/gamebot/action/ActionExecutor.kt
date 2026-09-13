@@ -23,6 +23,12 @@ object ActionExecutor {
     // games with a centered camera this is close to screen center.
     private var playerScreenPosition = Pair(540f, 960f)
 
+    // Whether we believe the in-game "run" toggle is currently on. Avoids
+    // re-tapping the run button (and, more importantly, avoids holding a
+    // long-press gesture that blocks the movement swipe from ever dispatching
+    // — Android can only run one gesture on a service at a time) every tick.
+    private var runToggledOn = false
+
     fun calibrate(
         inventory: Pair<Float, Float>? = null,
         run: Pair<Float, Float>? = null,
@@ -40,9 +46,26 @@ object ActionExecutor {
         service()?.tap(inventoryButton.first, inventoryButton.second)
     }
 
+    /**
+     * Toggles the run/sprint button ON if it isn't already — a quick tap, not a
+     * long hold, since most survival/open-world mobile games use run as a toggle.
+     * Holding it as a long-press previously blocked moveDirection()'s swipe from
+     * ever dispatching (only one gesture can run at a time), so the bot never
+     * actually moved while "running". Call [stopRunning] to toggle it back off.
+     */
     fun pressRun() {
+        if (runToggledOn) return
         humanDelay()
-        service()?.longPress(runButton.first, runButton.second, durationMs = 1000L)
+        service()?.tap(runButton.first, runButton.second)
+        runToggledOn = true
+    }
+
+    /** Toggle run back off (e.g. when entering combat, if your game requires it). */
+    fun stopRunning() {
+        if (!runToggledOn) return
+        humanDelay()
+        service()?.tap(runButton.first, runButton.second)
+        runToggledOn = false
     }
 
     /** direction in degrees, 0 = up/forward, clockwise */
